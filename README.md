@@ -35,3 +35,19 @@
 -repository -- data access layer
 -Middleware -- request pipeline
 -schema -- pydantic model for validation
+
+# database 
+
+# non relational db
+mongodb
+cassandra
+redis
+dynamodb
+
+## constraints in database
+primary key -- eg: student_id ,staff_id
+forign key -- eg: department_id in student table
+unique key -- eg: email, phone number
+not null -- eg: name 
+check -- eg:  salary > 0
+default -- eg: timestamp:func.now()
