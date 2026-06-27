@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Enum,ForeignKey, relationship
-from models.company import Company
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Enum,ForeignKey
+from sqlalchemy.orm import declarative_base,relationship
 from database import Base , engine ,SessionLocal
 
 
