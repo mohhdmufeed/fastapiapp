@@ -26,3 +26,5 @@ def update_company(company_id: int, company: companyUpdate):
 def delete_company(company_id: int):
     companies.pop(company_id)
     return companies
+
+

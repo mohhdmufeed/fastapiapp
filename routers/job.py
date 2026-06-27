@@ -27,3 +27,4 @@ def delete_job(job_id: int):
     jobs.pop(job_id)
     return jobs
 
+
