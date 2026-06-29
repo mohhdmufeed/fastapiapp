@@ -7,6 +7,7 @@ class companyBase(BaseModel):
     name: str
     email: str
     phone: str
+    location: str
 
 class companyCreate(companyBase):
     pass
@@ -17,6 +18,7 @@ class companyUpdate(companyBase):
     name: Optional[str] = None
     email: Optional[str] = None
     phone: Optional[str] = None
+    location: Optional[str] =None
 
 class companyResponse(companyBase):
     id: int

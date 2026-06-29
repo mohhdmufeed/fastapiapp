@@ -60,7 +60,7 @@ default -- eg: timestamp:func.now()
 -psycopg2 -- postgresql driver
 -pydantics -- data validation
 -typing extensions-- type hints
-
+-alembic--  database migration 
 ## concepts:
  ---orm (object relational mapping)-- to convert python code t0 sql commands without writing sql commands
  -----depends
@@ -73,3 +73,5 @@ default -- eg: timestamp:func.now()
 
     --session local 
             to create 
+
+
