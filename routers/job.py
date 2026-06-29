@@ -50,3 +50,5 @@ def delete_job(job_id: int, db: Session = Depends(get_db)):
     db.delete(db_job)
     db.commit()
     return {"detail": "Job deleted successfully"}
+
+
