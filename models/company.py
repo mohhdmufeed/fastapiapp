@@ -1,10 +1,6 @@
-from sqlalchemy import Column, Integer, String ,Enum ,ForeignKey
-
-from database import Base , engine ,SessionLocal
-from sqlalchemy.orm import declarative_base ,relationship
-
-Base = declarative_base()
-
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
+from database import Base
 
 class Company(Base):
     __tablename__ = "companies"
