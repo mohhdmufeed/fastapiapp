@@ -75,3 +75,8 @@ default -- eg: timestamp:func.now()
             to create 
 
 
+pip install alembic
+alembic init alembic
+alembic revision --autogenerate -m "initial migration"
+alembic upgrade head
+ybs-cfhr-hwp
