@@ -20,7 +20,7 @@ def create_company(company: companyCreate,db: Session = Depends(get_db)):
 
 @router.get("/",status_code=status.HTTP_200_OK,
 response_model=list[companyResponse])
-def get_all_company(company_id: int,db: Session = Depends(get_db)):
+def get_all_company(db: Session = Depends(get_db)):
     companies = db.query(Company).all()
     return companies
 

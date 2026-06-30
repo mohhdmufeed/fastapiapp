@@ -14,7 +14,6 @@ class companyBase(BaseModel):
     
 
 class companyCreate(companyBase):
-    
     name: str
     email: str
     phone: str
