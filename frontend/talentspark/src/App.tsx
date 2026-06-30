@@ -21,7 +21,7 @@ function App(){
       setLoading(false);
     } catch (error){
       console.error("Failed to fetch companies",error);
-      setError(error);
+      setError(error as Error);
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ function App(){
     <>
     <NavBar/>
     <Welcome/>
-    <CompanyCard key={companies.id}
+    <CompanyCard
     companies = {companies}/>   
     <JobCard/>
     <Footer/>
@@ -51,3 +51,5 @@ function App(){
   )
 }
 export default App
+
+
