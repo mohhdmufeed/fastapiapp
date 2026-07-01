@@ -21,13 +21,9 @@ if config.config_file_name is not None:
 from models.company import Company
 from models.job import Job
 from database import Base
+from models.users import User
 target_metadata = Base.metadata
 
-
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
 
 
 def run_migrations_offline() -> None:
