@@ -89,4 +89,10 @@ ui > axios > localhost:8000 (api call) > fastapi (python )> db > useeffect > set
 useeffect-->  which is used to call the api or which is used to fetch the data from the api automatically when the page is loaded 
 
 useState --> which is used to store the data in the component and which will update the componen when the data is  updated or changed 
+ axios --which is used to call the  api or which is used to fetch the  data from the api
+
+ promise -- which is used to handle the asynchronous operations
+
+ async/await -- which is used to handle the asynchronous operations in a synchronous 
+
 

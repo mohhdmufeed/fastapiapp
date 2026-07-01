@@ -9,5 +9,6 @@ interface company{
     jobs:job[];
 
 }
+
 export  type{company}
 
