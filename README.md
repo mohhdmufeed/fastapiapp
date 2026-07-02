@@ -75,3 +75,24 @@ useeffect-->  which is used to call the api or which is used to fetch the data f
 
 useState --> which is used to store the data in the component and which will update the componen when the data is  updated or changed 
 
+
+#hashing algorithm
+argon2
+bcrypt
+
+jwt tokens--> used to authenticate and authorize users 
+its in the format xxxx.yyyy.zzzzz basically 3 parts
+1.header -> algo + token type : { alg:HS256 , type:JWT }
+2.payload ->data, for eg:{user_id: 1, role:admin}
+3.signature -> used to verify the token :{hash(header+ payload+ secretkey) }
+
+access token  -> used to access protected resources
+refresh token -> used to refresh access token
+
+pip install python-multipart
+
+
+
+                                        Abstract 
+
+The Job Recommendation Assistant Using Semantic Search and Resume Analysis is an AI-powered web application that helps students and job seekers find suitable job opportunities based on their skills, qualifications, and experience. The system analyzes uploaded resumes, extracts key information, and compares it with job descriptions using Natural Language Processing (NLP), semantic search, and Retrieval-Augmented Generation (RAG) to provide accurate job recommendations. It also identifies skill gaps, suggests resume improvements, and offers personalized career guidance, making the job search process faster, smarter, and more effective.
