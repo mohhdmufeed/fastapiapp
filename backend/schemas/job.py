@@ -12,7 +12,7 @@ class JobCreate(JobBase):
     pass
 
 
-class JobUpdate(JobBase):
+class JobUpdate(BaseModel):
     title: Optional[str] = None
     salary: Optional[int] = None
     description: Optional[str] = None
@@ -24,6 +24,3 @@ class JobResponse(JobBase):
 
     class Config:
         from_attributes = True
-
-
-

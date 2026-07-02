@@ -1,3 +1,3 @@
- export const name = " mufeed";
+export const name = " Akashh";
 console.log(name);
 

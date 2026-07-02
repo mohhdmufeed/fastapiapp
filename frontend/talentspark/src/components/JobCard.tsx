@@ -1,4 +1,4 @@
-function JobCard(){
+	function JobCard(){
     return(
         <div> 
             <h1> Software Engineering</h1>

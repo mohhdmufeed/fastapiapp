@@ -1,6 +1,6 @@
 # fastapiapp
+## creating fast api application 
 
-## creating fasapi application
 
 # CRUD operations
 -create
@@ -15,7 +15,7 @@
 -DELETE
 
 
-# status codes
+# status code
 -200 OK
 -201 created
 -204 No content
@@ -27,40 +27,22 @@
 -409 conflict
 -500 Internal server error
 
-# Architecture of fastapi application
--Model -- tables creation
--Router -- routes requests to controllers
--Controller -- controller logic 
--Service -- business logic
--repository -- data access layer
--Middleware -- request pipeline
--schema -- pydantic model for validation
 
-# database 
 
-# non relational db
-mongodb
-cassandra
-redis
-dynamodb
-
-## constraints in database
-primary key -- eg: student_id ,staff_id
-forign key -- eg: department_id in student table
-unique key -- eg: email, phone number
-not null -- eg: name 
-check -- eg:  salary > 0
-default -- eg: timestamp:func.now()
 
 ## modules
 -sqlalchemy-orm(obj relational mapping )
 -fastapi-- web framework
 -uvicorn-- server for runniing fastapi
--application--`uvicorn app.main:app --reload`
+-application--
+  ```bash
+  cd backend
+  uvicorn app.main:app --reload
+  ```
 -psycopg2 -- postgresql driver
 -pydantics -- data validation
 -typing extensions-- type hints
--alembic--  database migration 
+
 ## concepts:
  ---orm (object relational mapping)-- to convert python code t0 sql commands without writing sql commands
  -----depends
@@ -75,13 +57,16 @@ default -- eg: timestamp:func.now()
             to create 
 
 
+
+```bash
+cd backend
 pip install alembic
 alembic init alembic
 alembic revision --autogenerate -m "initial migration"
 alembic upgrade head
+```
 ybs-cfhr-hwp
 
-c
 
 npm install axios 
 ui > axios > localhost:8000 (api call) > fastapi (python )> db > useeffect > setstate >rerender> ui
@@ -89,10 +74,4 @@ ui > axios > localhost:8000 (api call) > fastapi (python )> db > useeffect > set
 useeffect-->  which is used to call the api or which is used to fetch the data from the api automatically when the page is loaded 
 
 useState --> which is used to store the data in the component and which will update the componen when the data is  updated or changed 
- axios --which is used to call the  api or which is used to fetch the  data from the api
-
- promise -- which is used to handle the asynchronous operations
-
- async/await -- which is used to handle the asynchronous operations in a synchronous 
-
 

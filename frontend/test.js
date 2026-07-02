@@ -51,7 +51,3 @@ console.log(a,...b);
  console.log(add(10,20));
  console.log (add(10,20,30,40,));
 */
-// Template literals 
-const a=10
-const b= 20
-console.log (`the sum of ${a} amd ${b} is ${a+b}`);
