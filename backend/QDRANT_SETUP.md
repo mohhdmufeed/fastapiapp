@@ -100,3 +100,5 @@ You can also check your cluster dashboard at **https://cloud.qdrant.io/** to see
 - **1 GB RAM**, 0.5 vCPU, 4 GB disk
 - This is plenty for a learning project with hundreds of jobs
 - Cluster may auto-pause after extended inactivity — just restart it from the dashboard
+
+

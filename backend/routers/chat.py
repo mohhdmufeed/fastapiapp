@@ -17,3 +17,5 @@ def ask_career_chatbot(request:ChatRequest):
         return ChatResponse(response=ans)   
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Career chatbot service error: {str(e)}")
+    
+    
