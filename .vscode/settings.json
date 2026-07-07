@@ -1,0 +1,10 @@
+{
+    "workbench.browser.openLocalhostLinks": true,
+    "python.analysis.extraPaths": [
+        "./backend"
+    ],
+    "python.autoComplete.extraPaths": [
+        "./backend"
+    ],
+    "python.defaultInterpreterPath": "backend/env/Scripts/python.exe"
+}
