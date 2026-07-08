@@ -79,3 +79,30 @@ POSTGRES_PORT=6543
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=yxLAul0U1Xy1p4l8
 POSTGRES_DB=postgres
+
+
+# Before Deployment checklist
+ .env configured 
+ on startup create all tables in db
+ async await in every api and function and session handling for all apis
+ exception handling for all apis ->
+ eg:
+  1. resource not found 
+  2. internal server error
+  3. bad request
+  4. unauthorized 
+  5. forbidden
+  6. validation error
+  7. email already exists
+  8. password incorrect
+  9. company not found
+
+
+
+# generator - uses yield and after it uses it can be used in try block
+# after the use it is closed
+# prevents the memory leek, connection to db is closed properly
+# it creates session for each request and closed it after the request
+# ensures that each request has its own session
+
+

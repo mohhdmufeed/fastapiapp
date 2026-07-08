@@ -21,3 +21,4 @@ def role_required(roles:list):
             raise HTTPException(status_code=403,detail="Access denied")
         return current_user
     return role_decorator
+
