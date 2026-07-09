@@ -8,3 +8,4 @@
 8. Research Paper Assistant 	Research PDFs	"Summarize transformer architecture."	Retrieves and summarizes relevant sections
 9. Product Manual Chatbot 	Product manuals	"How do I reset the router?"	Gives step-by-step instructions
 10. Job Recommendation Assistant 	Job descriptions + resumes	"Which jobs match my skills?"	Finds matching jobs using semantic search
+
