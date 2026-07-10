@@ -5,6 +5,7 @@ import {useState} from "react";
 type Props = {
     companies:Company[];
     jobs:Job[];
+    userRole: string;
     onEdit: (company:Company)=>void;
     onDelete: (id:number)=>void;
     onAdd: (company:Company)=>void;
@@ -12,7 +13,8 @@ type Props = {
 
 
 function CompanyCard({
-    companies,jobs,onAdd,onEdit,onDelete}:Props){
+    companies,jobs,userRole,onAdd,onEdit,onDelete}:Props){
+    const isAdmin = userRole === "admin";
     const [editCompanyId, setEditCompanyId] = useState<number | null>(null);
     const [addform,setAddform] = useState<Company>({
         id:0,
@@ -128,22 +130,26 @@ function CompanyCard({
                                     </span>
                                 </div>
                                 <div className="action-buttons">
-                                    <button
-                                        onClick={() => {
-                                            setEditCompanyId(company.id);
-                                            setEditform({
-                                                id: company.id,
-                                                name: company.name,
-                                                email: company.email,
-                                                phone: company.phone,
-                                                location: company.location,
-                                                jobs: company.jobs,
-                                            });
-                                        }}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button className="btn-danger" onClick={() => onDelete(company.id)}>Delete</button>
+                                    {isAdmin && (
+                                        <button
+                                            onClick={() => {
+                                                setEditCompanyId(company.id);
+                                                setEditform({
+                                                    id: company.id,
+                                                    name: company.name,
+                                                    email: company.email,
+                                                    phone: company.phone,
+                                                    location: company.location,
+                                                    jobs: company.jobs,
+                                                });
+                                            }}
+                                        >
+                                            Edit
+                                        </button>
+                                    )}
+                                    {isAdmin && (
+                                        <button className="btn-danger" onClick={() => onDelete(company.id)}>Delete</button>
+                                    )}
                                 </div>
                             </div>
                         </div>}
@@ -151,6 +157,7 @@ function CompanyCard({
                 ))}
             </div>
 
+            {isAdmin && (
             <div style={{ marginTop: '3.5rem', maxWidth: '600px' }}>
                 <h2 style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <span>➕</span> Add New Partner Company
@@ -171,6 +178,7 @@ function CompanyCard({
                     <button className="btn-primary" onClick={handleAdd} style={{ width: '100%', marginTop: '0.5rem' }}>Add Company Partner</button>
                 </div>
             </div>
+            )}
         </div>
     )
 }

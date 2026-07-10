@@ -1,9 +1,10 @@
 type Props = {
     currentPage: string;
     onNavigate: (page: string) => void;
+    onLogout?: () => void;
 }
 
-function NavBar({ currentPage, onNavigate }: Props) {
+function NavBar({ currentPage, onNavigate, onLogout }: Props) {
     return (
         <nav>
             <div className="nav-brand">
@@ -48,10 +49,7 @@ function NavBar({ currentPage, onNavigate }: Props) {
                 </button>
                 <button
                     className="btn-danger"
-                    onClick={() => {
-                        localStorage.removeItem("token");
-                        window.location.reload();
-                    }}
+                    onClick={() => { if (onLogout) onLogout(); else { localStorage.removeItem("token"); window.location.reload(); } }}
                     style={{ marginLeft: '1rem' }}
                 >
                     <svg style={{ width: '18px', height: '18px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

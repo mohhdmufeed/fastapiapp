@@ -5,13 +5,15 @@ import {useState} from "react";
 type Props = {
     jobs:Job[];
     companies:Company[];
+    userRole: string;
     onEdit: (job:Job)=>void;
     onDelete: (id:number)=>void;
     onAdd: (job:Job)=>void;
 }
 
 function JobCard({
-    jobs,companies,onEdit,onDelete,onAdd}:Props){
+    jobs,companies,userRole,onEdit,onDelete,onAdd}:Props){
+        const canManageJobs = userRole === "admin" || userRole === "recruiter";
         const [editJobId, setEditJobId] = useState<number | null>(null);
         const [addform,setAddform] = useState<Job>({
             id:0,
@@ -181,6 +183,7 @@ function JobCard({
                             </div>
                             <div>
                                 <div className="action-buttons">
+                                    {canManageJobs && (
                                     <button
                                         onClick={() => {
                                             setEditJobId(job.id);
@@ -199,7 +202,10 @@ function JobCard({
                                     >
                                         Edit
                                     </button>
-                                    <button className="btn-danger" onClick={() => onDelete(job.id)}>Delete</button>
+                                    )}
+                                    {canManageJobs && (
+                                        <button className="btn-danger" onClick={() => onDelete(job.id)}>Delete</button>
+                                    )}
                                 </div>
                             </div>
                         </div>}
@@ -207,6 +213,7 @@ function JobCard({
                 ))}
             </div>
 
+            {canManageJobs && (
             <div style={{ marginTop: '3.5rem', maxWidth: '600px' }}>
                 <h2 style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <span>➕</span> Add New Career Listing
@@ -254,6 +261,7 @@ function JobCard({
                     <button className="btn-primary" onClick={handleAdd} style={{ width: '100%', marginTop: '0.5rem' }}>Create Job Opportunity</button>
                 </div>
             </div>
+            )}
         </div>
     )
 }

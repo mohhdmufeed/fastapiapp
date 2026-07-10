@@ -9,7 +9,7 @@ from utils.oauth2 import role_required,get_current_user
 router = APIRouter(prefix="/job", tags=["job"])
 
 @router.post("/",status_code=status.HTTP_201_CREATED,response_model=JobResponse)
-async def create_job(job: JobCreate,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin", "hr", "recruiter"]))):
+async def create_job(job: JobCreate,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin","recruiter"]))):
     try:
         db_job = Job(**job.dict())
         db.add(db_job)
@@ -43,7 +43,7 @@ async def get_job(job_id: int,db:AsyncSession=Depends(get_db),current_user=Depen
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database error retrieving job: {str(e)}")
 
 @router.put("/{job_id}",status_code=status.HTTP_201_CREATED,response_model=JobResponse)
-async def update_job(job_id: int, job: JobUpdate,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin", "hr", "recruiter"]))):
+async def update_job(job_id: int, job: JobUpdate,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin","recruiter"]))):
     try:
         result = await db.execute(select(Job).filter(Job.id == job_id))
         db_job = result.scalars().first()
@@ -61,7 +61,7 @@ async def update_job(job_id: int, job: JobUpdate,db:AsyncSession=Depends(get_db)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database error updating job: {str(e)}")
 
 @router.delete("/{job_id}",status_code=status.HTTP_204_NO_CONTENT)
-async def delete_job(job_id: int,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin", "hr", "recruiter"]))):
+async def delete_job(job_id: int,db:AsyncSession=Depends(get_db),current_user=Depends(role_required(["admin","recruiter"]))):
     try:
         result = await db.execute(select(Job).filter(Job.id == job_id))
         db_job = result.scalars().first()

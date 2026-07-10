@@ -13,6 +13,15 @@ import Chat from "./pages/Chat";
 import ResumeAnalyser from "./pages/ResumeAnalyser";
 import JobMatch from "./pages/JobMatch";
 
+/** Decode a JWT payload without any library */
+function decodeJwtRole(token: string): string {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.role ?? "job_seeker";
+  } catch {
+    return "job_seeker";
+  }
+}
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -20,12 +29,23 @@ function App() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [userRole, setUserRole] = useState<string>(() => {
+    const t = localStorage.getItem("token");
+    return t ? decodeJwtRole(t) : "job_seeker";
+  });
   const [page, setPage] = useState<"login" | "register">("login");
   const [currentPage, setCurrentPage] = useState("home");
 
   const handleLogin = (newToken: string) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
+    setUserRole(decodeJwtRole(newToken));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    setUserRole("job_seeker");
   };
 
   async function fetchData() {
@@ -131,20 +151,22 @@ function App() {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div className="auth-container"><div className="auth-card"><p style={{textAlign:'center',opacity:0.7}}>Loading…</p></div></div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div>Error: {error.message}</div>;
   }
+
   return (
     <>
-      <NavBar currentPage={currentPage} onNavigate={setCurrentPage} />
+      <NavBar currentPage={currentPage} onNavigate={setCurrentPage} onLogout={handleLogout} />
       {currentPage === "home" && (
         <>
           <CompanyCard
             companies={companies}
             jobs={jobs}
+            userRole={userRole}
             onEdit={handleEdit}
             onDelete={handleDelete}
             onAdd={handleAdd}
@@ -152,6 +174,7 @@ function App() {
           <JobCard
             jobs={jobs}
             companies={companies}
+            userRole={userRole}
             onEdit={handleJobEdit}
             onDelete={handleJobDelete}
             onAdd={handleJobAdd}

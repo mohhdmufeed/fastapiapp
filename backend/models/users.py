@@ -7,6 +7,6 @@ class User(Base):
     name = Column(String(255), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
-    role = Column(String(255), nullable=False,default="Candidate")
+    role = Column(String(255), nullable=False, default="job_seeker")
 
     
