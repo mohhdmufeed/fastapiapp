@@ -11,7 +11,7 @@
 * [🎓 Day 15 Presentation & Program Wrap-Up Guide](file:///home/sriram/Sriram_repos/fastapiapp/interview_questions/day_15.md)
 
 # Architecture
-backend/
+backend
   app/
     --main.py
     --database.py
