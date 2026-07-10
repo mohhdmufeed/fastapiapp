@@ -113,6 +113,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchData();
     }
   }, [token]);

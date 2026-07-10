@@ -30,3 +30,4 @@ resume_chain = resume_prompt | llm
 def analyse_resume(resume_text: str) -> str:
     response = resume_chain.invoke({"resume_text": resume_text})
     return response.content
+

@@ -7,6 +7,10 @@ class JobBase(BaseModel):
     salary: int
     description: Optional[str] = None
     company_id: int
+    location: Optional[str] = None
+    job_type: Optional[str] = None
+    experience_level: Optional[str] = None
+    skills: Optional[str] = None
 
 class JobCreate(JobBase):
     pass
@@ -16,6 +20,10 @@ class JobUpdate(JobBase):
     salary: Optional[int] = None
     description: Optional[str] = None
     company_id: Optional[int] = None
+    location: Optional[str] = None
+    job_type: Optional[str] = None
+    experience_level: Optional[str] = None
+    skills: Optional[str] = None
 
 class JobResponse(JobBase):
     id: int
