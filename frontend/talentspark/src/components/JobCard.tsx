@@ -15,6 +15,42 @@ function JobCard({
     jobs,companies,userRole,onEdit,onDelete,onAdd}:Props){
         const canManageJobs = userRole === "admin" || userRole === "recruiter";
         const [editJobId, setEditJobId] = useState<number | null>(null);
+
+        // Application form states
+        const [applyingJob, setApplyingJob] = useState<Job | null>(null);
+        const [coverLetter, setCoverLetter] = useState("");
+        const [resumeText, setResumeText] = useState("");
+        const [applySuccess, setApplySuccess] = useState<string | null>(null);
+        const [applyError, setApplyError] = useState<string | null>(null);
+        const [isSubmitting, setIsSubmitting] = useState(false);
+
+        const handleOpenApplyModal = (job: Job) => {
+            setApplyingJob(job);
+            setCoverLetter("");
+            setResumeText("");
+            setApplySuccess(null);
+            setApplyError(null);
+            setIsSubmitting(false);
+        };
+
+        const handleApplySubmit = async () => {
+            if (!applyingJob) return;
+            setIsSubmitting(true);
+            setApplyError(null);
+            setApplySuccess(null);
+            try {
+                const { applyToJob } = await import("../Services/ApplicationService");
+                await applyToJob(applyingJob.id, coverLetter, resumeText);
+                setApplySuccess("Application submitted successfully!");
+                setTimeout(() => {
+                    setApplyingJob(null);
+                }, 2000);
+            } catch (err: any) {
+                setApplyError(err.response?.data?.detail || "Failed to submit application.");
+            } finally {
+                setIsSubmitting(false);
+            }
+        };
         const [addform,setAddform] = useState<Job>({
             id:0,
             title:"",
@@ -206,6 +242,9 @@ function JobCard({
                                     {canManageJobs && (
                                         <button className="btn-danger" onClick={() => onDelete(job.id)}>Delete</button>
                                     )}
+                                    {!canManageJobs && (
+                                        <button className="btn-primary" onClick={() => handleOpenApplyModal(job)}>Apply Now</button>
+                                    )}
                                 </div>
                             </div>
                         </div>}
@@ -261,6 +300,52 @@ function JobCard({
                     <button className="btn-primary" onClick={handleAdd} style={{ width: '100%', marginTop: '0.5rem' }}>Create Job Opportunity</button>
                 </div>
             </div>
+            )}
+            {applyingJob && (
+                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(7, 10, 19, 0.7)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
+                    <div className="card" style={{ width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto', position: 'relative', background: 'var(--card-bg)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-lg)' }}>
+                        <h3 style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem', marginBottom: '1.25rem', color: 'var(--text-h)' }}>
+                            Apply for {applyingJob.title}
+                        </h3>
+
+                        {applySuccess && (
+                            <div style={{ padding: '0.75rem', background: 'var(--success-bg)', border: '1px solid var(--success)', borderRadius: '10px', color: 'var(--success)', marginBottom: '1rem', fontWeight: 600 }}>
+                                ✔ {applySuccess}
+                            </div>
+                        )}
+
+                        {applyError && (
+                            <div style={{ padding: '0.75rem', background: 'var(--danger-bg)', border: '1px solid var(--danger)', borderRadius: '10px', color: 'var(--danger)', marginBottom: '1rem', fontWeight: 600 }}>
+                                ✖ {applyError}
+                            </div>
+                        )}
+
+                        <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-h)' }}>Cover Letter</label>
+                        <textarea 
+                            value={coverLetter} 
+                            onChange={(e) => setCoverLetter(e.target.value)} 
+                            placeholder="Write a brief cover letter explaining why you are a good fit..." 
+                            rows={4} 
+                            style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)', marginBottom: '1rem', resize: 'vertical' }}
+                        />
+
+                        <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-h)' }}>Paste Resume Text (Optional)</label>
+                        <textarea 
+                            value={resumeText} 
+                            onChange={(e) => setResumeText(e.target.value)} 
+                            placeholder="Paste your plain text resume here for the recruiter to review..." 
+                            rows={6} 
+                            style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)', marginBottom: '1.5rem', resize: 'vertical', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
+                        />
+
+                        <div className="action-buttons" style={{ justifyContent: 'end' }}>
+                            <button onClick={() => setApplyingJob(null)} disabled={isSubmitting}>Cancel</button>
+                            <button className="btn-primary" onClick={handleApplySubmit} disabled={isSubmitting}>
+                                {isSubmitting ? "Submitting..." : "Submit Application"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     )

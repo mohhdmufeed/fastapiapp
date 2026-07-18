@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Chat from "./pages/Chat";
 import ResumeAnalyser from "./pages/ResumeAnalyser";
 import JobMatch from "./pages/JobMatch";
+import Applications from "./pages/Applications";
 
 /** Decode a JWT payload without any library */
 function decodeJwtRole(token: string): string {
@@ -184,6 +185,7 @@ function App() {
       {currentPage === "chat" && <Chat />}
       {currentPage === "resume" && <ResumeAnalyser />}
       {currentPage === "jobmatch" && <JobMatch />}
+      {currentPage === "applications" && <Applications userRole={userRole} />}
       <Footer />
     </>
   )

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_db
 from schemas.rag import (
@@ -51,6 +51,37 @@ def resume_analyse(request: ResumeRequest):
         return ResumeResponse(analysis=analysis)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Resume analysis failed: {str(e)}")
+
+
+@router.post("/analyse-resume-file", response_model=ResumeResponse)
+async def resume_analyse_file(file: UploadFile = File(...)):
+    try:
+        content_type = file.content_type
+        filename = file.filename or ""
+        file_bytes = await file.read()
+
+        if filename.endswith(".docx") or content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            import docx
+            import io
+            doc = docx.Document(io.BytesIO(file_bytes))
+            text = "\n".join([p.text for p in doc.paragraphs])
+        elif filename.endswith(".txt") or content_type == "text/plain":
+            text = file_bytes.decode("utf-8", errors="ignore")
+        else:
+            raise HTTPException(
+                status_code=400,
+                detail="Unsupported file format. Please upload a .docx or .txt file."
+            )
+
+        if not text.strip():
+            raise HTTPException(status_code=400, detail="The uploaded file contains no text.")
+
+        analysis = analyse_resume(text)
+        return ResumeResponse(analysis=analysis)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Resume file analysis failed: {str(e)}")
 
 
 @router.post("/job-match", response_model=JobMatchResponse)

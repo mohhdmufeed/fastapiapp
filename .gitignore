@@ -1,4 +1,8 @@
 *.pyc
-env
-node_modules
+__pycache__/
+env/
 .env
+.venv/
+dist/
+node_modules/
+*.egg-info/

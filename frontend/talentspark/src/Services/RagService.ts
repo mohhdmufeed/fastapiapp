@@ -27,6 +27,17 @@ export async function analyseResume(resume_text: string): Promise<ResumeAnalysis
     return response.data;
 }
 
+export async function analyseResumeFile(file: File): Promise<ResumeAnalysis> {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await api.post<ResumeAnalysis>("/rag/analyse-resume-file", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+    return response.data;
+}
+
 export async function matchJobs(skills: string, experience: string): Promise<JobMatchResponse> {
     const response = await api.post<JobMatchResponse>("/rag/job-match", { skills, experience });
     return response.data;

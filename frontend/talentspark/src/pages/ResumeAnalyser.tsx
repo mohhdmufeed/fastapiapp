@@ -30,6 +30,8 @@ function ResumeAnalyser() {
     const [resumeText, setResumeText] = useState("");
     const [analysis, setAnalysis] = useState("");
     const [loading, setLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [uploadError, setUploadError] = useState<string | null>(null);
 
     const handleAnalyse = async () => {
         if (!resumeText.trim()) return;
@@ -41,6 +43,33 @@ function ResumeAnalyser() {
         } catch {
             setAnalysis("Failed to analyse resume. Please check if backend is running and Groq API key is valid.");
         } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        
+        if (file.size > 5 * 1024 * 1024) {
+            setUploadError("File is too large. Maximum size is 5MB.");
+            return;
+        }
+
+        setUploading(true);
+        setUploadError(null);
+        setAnalysis("");
+        setLoading(true);
+        try {
+            const { analyseResumeFile } = await import("../Services/RagService");
+            const result = await analyseResumeFile(file);
+            setAnalysis(result.analysis);
+            // Optionally, if the user wants to see what was read, but since it's processed on the server, we just display report.
+        } catch (err: any) {
+            setUploadError(err.response?.data?.detail || "Failed to extract and analyse resume file.");
+            setAnalysis("Analysis failed because the server could not parse the document or connect to AI.");
+        } finally {
+            setUploading(false);
             setLoading(false);
         }
     };
@@ -72,6 +101,46 @@ function ResumeAnalyser() {
                             <button onClick={loadTemplate} style={{ fontSize: '0.85rem', padding: '0.35rem 0.75rem' }}>
                                 📋 Load Sample Template
                             </button>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.25rem', padding: '1.25rem', border: '2px dashed var(--border)', borderRadius: 'var(--radius-sm)', textAlign: 'center', background: 'var(--bg)' }}>
+                            <span style={{ fontSize: '1.75rem', display: 'block', marginBottom: '0.25rem' }}>📄</span>
+                            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-h)' }}>Upload Word Document (.docx) or Text File (.txt)</span>
+                            <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>File size limit: 5MB</span>
+                            <input 
+                                type="file" 
+                                accept=".docx,.txt" 
+                                onChange={handleFileUpload} 
+                                style={{ display: 'none' }} 
+                                id="resume-file-input"
+                                disabled={uploading || loading}
+                            />
+                            <label 
+                                htmlFor="resume-file-input" 
+                                className="btn-primary" 
+                                style={{ 
+                                    display: 'inline-flex', 
+                                    padding: '0.5rem 1.25rem', 
+                                    fontSize: '0.8rem', 
+                                    cursor: 'pointer',
+                                    margin: '0.5rem auto 0 auto',
+                                    borderRadius: '100px',
+                                    boxShadow: 'var(--shadow-sm)'
+                                }}
+                            >
+                                {uploading ? "Extracting & Reviewing..." : "Choose File"}
+                            </label>
+                            {uploadError && (
+                                <span style={{ color: 'var(--danger)', fontSize: '0.8rem', marginTop: '0.5rem', display: 'block', fontWeight: 600 }}>
+                                    ✖ {uploadError}
+                                </span>
+                            )}
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: '0.5rem 0 1rem 0' }}>
+                            <div style={{ flex: 1, height: '1px', background: 'var(--border)' }}></div>
+                            <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>or paste text below</span>
+                            <div style={{ flex: 1, height: '1px', background: 'var(--border)' }}></div>
                         </div>
                         
                         <textarea
